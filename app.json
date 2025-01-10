@@ -1,0 +1,78 @@
+{
+    "name": "Heroku Hackathon 301",
+    "description": "Enterprise FastAPI template with Kafka and Salesforce integration",
+    "repository": "https://github.com/YOUR_USERNAME/heroku-hackathon-301",
+    "keywords": ["python", "fastapi", "kafka", "salesforce", "heroku-connect"],
+    "success_url": "/docs",
+    
+    "addons": [
+      {
+        "plan": "heroku-postgresql:standard-0",
+        "as": "PRIMARY_DB"
+      },
+      {
+        "plan": "heroku-kafka:basic-0",
+        "as": "KAFKA_BROKER"
+      },
+      {
+        "plan": "heroku-connect:demo",
+        "as": "SALESFORCE_CONNECT"
+      },
+      {
+        "plan": "papertrail:choklad",
+        "as": "LOGGING"
+      }
+    ],
+  
+    "buildpacks": [
+      {
+        "url": "heroku/python"
+      }
+    ],
+  
+    "environments": {
+      "production": {
+        "formation": {
+          "web": {
+            "quantity": 2,
+            "size": "standard-2x"
+          },
+          "worker": {
+            "quantity": 2,
+            "size": "standard-2x"
+          },
+          "kafka-consumer": {
+            "quantity": 2,
+            "size": "standard-1x"
+          }
+        }
+      }
+    },
+  
+    "env": {
+      "PYTHON_VERSION": {
+        "description": "Python runtime version",
+        "value": "3.11.5"
+      },
+      "KAFKA_CLIENT_CERT": {
+        "description": "Kafka client certificate",
+        "required": true
+      },
+      "KAFKA_CLIENT_CERT_KEY": {
+        "description": "Kafka client certificate key",
+        "required": true
+      },
+      "KAFKA_TRUSTED_CERT": {
+        "description": "Kafka trusted certificate",
+        "required": true
+      },
+      "SALESFORCE_API_VERSION": {
+        "description": "Salesforce API version",
+        "value": "57.0"
+      },
+      "CONSUMER_GROUP": {
+        "description": "Kafka consumer group ID",
+        "generator": "secret"
+      }
+    }
+  }
